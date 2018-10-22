@@ -11,6 +11,8 @@ ENVIRONMENT = {
 }.freeze
 
 def get_kernels(lang, env)
+  return if lang.nil?
+
   if env.key?(lang) && lang.to_s.freeze == 'java'.freeze
     system "git clone #{env[:java]}"
     if File.directory? 'IJava'
@@ -28,7 +30,7 @@ def get_kernels(lang, env)
     puts "Download successfully"
     system 'chmod u+x jupyter-php-installer.phar && ./jupyter-php-installer.phar install -vvv' unless found_program('php').nil?
   end
-  return if lang.nil?
+  
 end
 
 def download_phar_php(env)
