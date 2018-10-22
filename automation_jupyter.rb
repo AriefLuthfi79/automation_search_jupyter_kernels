@@ -18,7 +18,7 @@ def get_kernels(lang, env)
         system 'chmod u+x gradlew && ./gradlew' 
       end
     end
-  elsif env.key? lang && lang.to_s.freeze == "javascript"
+  elsif lang.to_s.freeze == "javascript"
     system env[lang] 
     system 'ijsinstall'
   else
