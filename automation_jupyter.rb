@@ -21,6 +21,7 @@ def get_kernels(lang, env)
       end
     end
   elsif lang.to_s.freeze == "javascript"
+    puts "Configuring system..."
     system env[lang] 
     system 'ijsinstall'
   else
@@ -40,7 +41,7 @@ def download_phar_php(env)
     get_filename = env[:php].split("/") 
     username = `whoami`.strip
     File.write("/home/#{username}/#{get_filename[5]}", response)
-  rescue Timeout::Error, Errno::EINVAL, Errno::ECONNRESET, EOFError,
+  rescue SocketError, Timeout::Error, Errno::EINVAL, Errno::ECONNRESET, EOFError,
          Net::HTTPBadResponse, Net::HTTPHeaderSyntaxError, Net::ProtocolError => e
     puts e
   end
@@ -61,12 +62,13 @@ puts "# " * 20
 puts "  Automasi jupyter for Logic Pondok IT ".colorize(:blue)
 puts "# " * 20
 
+
 puts "\nChecking Anaconda directory...".colorize(:green)
 sleep 1
 
 FileUtils.cd "/home/#{USER}" do
   if File.directory? 'anaconda3'
-    puts "Anaconda was found"
+    puts "Anaconda was found".colorize(:red)
     puts %{
          Choose your Programming Langguage:
             1. PHP
