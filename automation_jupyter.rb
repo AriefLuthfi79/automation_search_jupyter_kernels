@@ -13,7 +13,7 @@ ENVIRONMENT = {
 def get_kernels(lang, env)
   return if lang.nil?
 
-  if lang.to_s.freeze == 'java'.freeze
+  if env.key?(lang) && lang.to_s.freeze == 'java'.freeze
     system "git clone #{env[:java]}"
     if File.directory? 'IJava'
       FileUtils.cd 'IJava' do
@@ -73,7 +73,7 @@ FileUtils.cd "/home/#{USER}" do
             2. Java
             3. Javascript
     }.colorize(:yellow)
-    print "Your programming langguage is : "
+    print "Your programming langguage is : ".colorize(:blue)
     lang = gets.chomp.to_sym
     get_kernels(lang, ENVIRONMENT) 
   end
