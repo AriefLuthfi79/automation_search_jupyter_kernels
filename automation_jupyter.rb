@@ -13,7 +13,7 @@ ENVIRONMENT = {
 def get_kernels(lang, env)
   return if lang.nil?
 
-  if env.key?(lang) && lang.to_s.freeze == 'java'.freeze
+  if lang.to_s.freeze == 'java'.freeze
     system "git clone #{env[:java]}"
     if File.directory? 'IJava'
       FileUtils.cd 'IJava' do
@@ -61,7 +61,7 @@ puts "# " * 20
 puts "  Automasi jupyter for Logic Pondok IT ".colorize(:blue)
 puts "# " * 20
 
-puts "\nChecking Anaconda directory..."
+puts "\nChecking Anaconda directory...".colorize(:green)
 sleep 1
 
 FileUtils.cd "/home/#{USER}" do
