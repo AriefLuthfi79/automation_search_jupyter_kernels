@@ -72,10 +72,11 @@ def get_request_from_git(raw)
   http.use_ssl = true if uri.scheme == "https"
   http.start do |h|
     response = h.request(Net::HTTP::Get.new(uri.request_uri))
-    File.open("Untitled.json", 'a+') { |f| f.puts response.body } 
+    File.open("Untitled.json", 'a') { |f| f.puts response.body } 
   end
 end
 
+puts `clear`
 puts "# " * 20
 puts "  Optimization jupyter for Logic Pondok IT ".colorize(:blue)
 puts "# " * 20
