@@ -78,6 +78,7 @@ FileUtils.cd "/home/#{USER}" do
     print "Your programming langguage is : ".colorize(:blue)
     lang = gets.chomp.to_sym
     get_kernels(lang, ENVIRONMENT) 
+  else
   end
 end
 
