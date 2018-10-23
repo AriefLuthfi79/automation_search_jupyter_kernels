@@ -14,7 +14,7 @@ def get_kernels(lang, env)
   return if lang.nil?
 
   if env.key?(lang) && lang.to_s.freeze == 'java'.freeze
-    system "git clone #{env[:java]}"
+    system "git clone #{env[:java]}" unless File.directory? 'IJava'
     if File.directory? 'IJava'
       FileUtils.cd 'IJava' do
         system 'chmod u+x gradlew && ./gradlew' 
