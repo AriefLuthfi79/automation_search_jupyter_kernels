@@ -59,7 +59,7 @@ def found_program(cmd)
 end
 
 puts "# " * 20
-puts "  Automasi jupyter for Logic Pondok IT ".colorize(:blue)
+puts "  Optimization jupyter for Logic Pondok IT ".colorize(:blue)
 puts "# " * 20
 
 
