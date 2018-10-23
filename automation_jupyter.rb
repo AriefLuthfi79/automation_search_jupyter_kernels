@@ -3,6 +3,7 @@ require 'uri'
 require 'net/http'
 require 'fileutils'
 
+URI_BASE = "https://raw.githubusercontent.com/moslog/logic-lomba-template-notebook/master/template.ipynb"
 USER = `whoami`.strip.freeze
 ENVIRONMENT = {
   java: "https://github.com/SpencerPark/IJava.git",
@@ -10,15 +11,22 @@ ENVIRONMENT = {
   javascript: "sudo npm install -g ijavascript"
 }.freeze
 
+spinner = Enumerator.new do |e|
+  loop do
+    e.yield '|'.colorize(:red)
+    e.yield '/'.colorize(:orange)
+    e.yield '-'.colorize(:blue)
+    e.yield '\\'.colorize(:green)
+  end
+end
+
 def get_kernels(lang, env)
   return if lang.nil?
 
   if env.key?(lang) && lang.to_s.freeze == 'java'.freeze
     system "git clone #{env[:java]}" unless File.directory? 'IJava'
-    if File.directory? 'IJava'
-      FileUtils.cd 'IJava' do
-        system 'chmod u+x gradlew && ./gradlew' 
-      end
+    FileUtils.cd 'IJava' do
+      system 'chmod u+x gradlew && ./gradlew' 
     end
   elsif lang.to_s.freeze == "javascript"
     puts "Configuring system..."
@@ -58,6 +66,16 @@ def found_program(cmd)
   return nil
 end
 
+def get_request_from_git(raw)
+  uri = URI.parse(raw)
+  http = Net::HTTP.new(uri.host, uri.port)
+  http.use_ssl = true if uri.scheme == "https"
+  http.start do |h|
+    response = h.request(Net::HTTP::Get.new(uri.request_uri))
+    File.open("Untitled.json", 'a+') { |f| f.puts response.body } 
+  end
+end
+
 puts "# " * 20
 puts "  Optimization jupyter for Logic Pondok IT ".colorize(:blue)
 puts "# " * 20
@@ -78,6 +96,14 @@ FileUtils.cd "/home/#{USER}" do
     print "Your programming langguage is : ".colorize(:blue)
     lang = gets.chomp.to_sym
     get_kernels(lang, ENVIRONMENT) 
+    puts "Generate file json"
+    
+    1.upto(100) do |i|
+      progress = "=" * (i/5) unless i < 5
+      printf("\rCombined: [%-20s] %d%% %s", progress, i, spinner.next)
+      sleep(0.1)
+    end
+    get_request_from_git(URI_BASE)
   end
 end
 
