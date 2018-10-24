@@ -78,7 +78,7 @@ end
 
 puts `clear`
 puts "# " * 20
-puts "  Optimization jupyter for Logic Pondok IT ".colorize(:blue)
+puts "Optimization jupyter for Logic Pondok IT ".colorize(:blue)
 puts "# " * 20
 
 
