@@ -3,10 +3,11 @@ require 'uri'
 require 'net/http'
 require 'fileutils'
 
+
 URI_BASE = "https://raw.githubusercontent.com/moslog/logic-lomba-template-notebook/master/template.ipynb"
 USER = `whoami`.strip.freeze
 ENVIRONMENT = {
-  java: "https://github.com/SpencerPark/IJava.git",
+  java: ["https://github.com/SpencerPark/IJava.git", ""],
   php: "https://litipk.github.io/Jupyter-PHP-Installer/dist/jupyter-php-installer.phar",
   javascript: "sudo npm install -g ijavascript"
 }.freeze
@@ -93,7 +94,7 @@ FileUtils.cd "/home/#{USER}" do
   if File.directory? 'anaconda3'
     puts "Anaconda was found".colorize(:red)
     puts %{
-         Choose your Programming Langguage:
+         Choose your Programming Language:
             1. PHP
             2. Java
             3. Javascript
@@ -109,6 +110,7 @@ FileUtils.cd "/home/#{USER}" do
       sleep(0.1)
     end
     get_request_from_git(URI_BASE)
+    
   end
 end
 
