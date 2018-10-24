@@ -7,9 +7,9 @@ require 'fileutils'
 URI_BASE = "https://raw.githubusercontent.com/moslog/logic-lomba-template-notebook/master/template.ipynb"
 USER = `whoami`.strip.freeze
 ENVIRONMENT = {
-  java: ["https://github.com/SpencerPark/IJava.git", ""],
+  java: "https://github.com/SpencerPark/IJava.git",
   php: "https://litipk.github.io/Jupyter-PHP-Installer/dist/jupyter-php-installer.phar",
-  javascript: "sudo npm install -g ijavascript"
+  javascript: "sudo npm install -g ijavascript --unsafe-perm --allow-root"
 }.freeze
 
 spinner = Enumerator.new do |e|
