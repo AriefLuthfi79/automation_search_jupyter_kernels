@@ -67,12 +67,16 @@ def found_program(cmd)
 end
 
 def get_request_from_git(raw)
-  uri = URI.parse(raw)
-  http = Net::HTTP.new(uri.host, uri.port)
-  http.use_ssl = true if uri.scheme == "https"
-  http.start do |h|
-    response = h.request(Net::HTTP::Get.new(uri.request_uri))
-    File.open("Untitled.json", 'a') { |f| f.puts response.body } 
+  begin
+    uri = URI.parse(raw)
+    http = Net::HTTP.new(uri.host, uri.port)
+    http.use_ssl = true if uri.scheme == "https"
+    http.start do |h|
+      response = h.request(Net::HTTP::Get.new(uri.request_uri))
+      File.open("Untitled.json", 'a') { |f| f.puts response.body } 
+    end
+  rescue SocketError => e
+    puts "No internet connection #{e}"
   end
 end
 
