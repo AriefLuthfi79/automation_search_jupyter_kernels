@@ -110,7 +110,6 @@ FileUtils.cd "/home/#{USER}" do
       sleep(0.1)
     end
     get_request_from_git(URI_BASE)
-    
   end
 end
 
