@@ -11,18 +11,18 @@ URI_BASE = "https://raw.githubusercontent.com/moslog/logic-lomba-template-notebo
 
 class ConfigurationKernel
   attr_reader :kernel_name
-
+  
   def initialize(lang)
     @kernel_name = lang[:lang]
   end
-  
+
   def _kernel
     raise "Cannot found kernel file" if get_kernel.nil?
     JSON.parse(File.read(get_kernel), object_class: OpenStruct)
   end
 
-  private
-
+  private 
+  
   def get_kernel
     WorkingDir.new.found_kernel_file(kernel_name)
   end
@@ -99,7 +99,9 @@ spinner = Enumerator.new do |y|
   end
 end
 
-get_request_from_git(URI_BASE)
+FileUtils.cd("/home/#{USER}" do
+  get_request_from_git(URI_BASE)
+end
 
 1.upto(100) do |i|
   progress = "=" * (i/5) unless i < 5
@@ -118,6 +120,6 @@ loop do
   print "What programming language do you used?(Java, Python, PHP, or Javascript) "
   prog_lang = gets.chomp.downcase
   FileUtils.cd("/home/#{USER}") do
-    puts ConfigurationKernel.new(lang: "#{prog_lang}")._kernel.argv[0]
+    puts ConfigurationKernel.new(lang: "#{prog_lang}")
   end
 end 
