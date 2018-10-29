@@ -109,17 +109,15 @@ end
   sleep(0.1)
 end
 
-puts `clear`
+system("clear")
 puts "# " * 28
 puts "Insert your name and What Programming language you used".colorize(:blue)
 puts "# " * 28 + "\n\n"
 
-loop do
-  print "What your name : "
-  name = gets.chomp.capitalize
-  print "What programming language do you used?(Java, Python, PHP, or Javascript) "
-  prog_lang = gets.chomp.downcase
-  FileUtils.cd("/home/#{USER}") do
-    puts ConfigurationKernel.new(lang: "#{prog_lang}")
-  end
-end 
+print "What your name : "
+name = gets.chomp.capitalize
+print "What programming language do you used?(Java, Python, PHP, or Javascript) : "
+prog_lang = gets.chomp.downcase
+FileUtils.cd("/home/#{USER}") do
+  puts ConfigurationKernel.new(lang: "#{prog_lang}")
+end
