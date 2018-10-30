@@ -11,7 +11,7 @@ URI_BASE = "https://raw.githubusercontent.com/moslog/logic-lomba-template-notebo
 
 class ConfigurationKernel
   attr_reader :kernel_name
-  
+
   def initialize(lang)
     @kernel_name = lang[:lang]
   end
@@ -22,7 +22,7 @@ class ConfigurationKernel
   end
 
   private 
-  
+
   def get_kernel
     WorkingDir.new.found_kernel_file(kernel_name)
   end
@@ -30,7 +30,7 @@ end
 
 class WorkingDir
   attr_reader :current_kernel_dir, :data_lang
- 
+
   DEFAULT_PATH = "/home/#{`whoami`.strip}/.local/share/jupyter/kernels/*/"
   private_constant :DEFAULT_PATH
 
@@ -60,7 +60,7 @@ class WorkingDir
     end
     return hashing_data
   end
-  
+
   def looking_for_kernel_dir(kernel_name)
     data_lang.each do |key, value|
       if key.to_s == kernel_name
@@ -73,7 +73,7 @@ class WorkingDir
     File.directory? DEFAULT_PATH.gsub("*", "")
   end
 end
-  
+
 
 def get_request_from_git(raw)
   begin
@@ -85,7 +85,7 @@ def get_request_from_git(raw)
       File.open("Untitled.json", 'a') { |f| f.puts response.body } 
     end
   rescue SocketError, Timeout::Error, Errno::EINVAL, Errno::ECONNRESET, EOFError,
-         Net::HTTPBadResponse, Net::HTTPHeaderSyntaxError, Net::ProtocolError => e 
+    Net::HTTPBadResponse, Net::HTTPHeaderSyntaxError, Net::ProtocolError => e 
     puts "Error #{e}"
   end
 end
