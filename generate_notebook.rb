@@ -74,6 +74,8 @@ class WorkingDir
   end
 end
 
+class ConfigureNotebook
+
 
 def get_request_from_git(raw)
   begin
