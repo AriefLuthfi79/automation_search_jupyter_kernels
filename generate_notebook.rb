@@ -75,6 +75,24 @@ class WorkingDir
 end
 
 class ConfigureNotebook
+  attr_reader :notebook, :note_obj
+
+  def initialize(notebook)
+    @notebook = notebook
+  end
+
+  def configure
+    return if notebook.empty?
+    @note_obj ||= read_file_to_obj(notebook) 
+    yield
+  end
+  
+  private
+
+  def read_file_to_obj(json_file)
+    JSON.parse(File.read(json_file), object_class: OpenStruct)
+  end
+end
 
 
 def get_request_from_git(raw)
@@ -101,7 +119,7 @@ spinner = Enumerator.new do |y|
   end
 end
 
-FileUtils.cd("/home/#{USER}" do
+FileUtils.cd("/home/#{USER}") do
   get_request_from_git(URI_BASE)
 end
 
@@ -122,4 +140,8 @@ print "What programming language do you used?(Java, Python, PHP, or Javascript) 
 prog_lang = gets.chomp.downcase
 FileUtils.cd("/home/#{USER}") do
   puts ConfigurationKernel.new(lang: "#{prog_lang}")
+  ConfigureNotebook.new("Untitled.json").configure do
+    note_obj.nbformat = 2
+    puts note_obj
+  end
 end
